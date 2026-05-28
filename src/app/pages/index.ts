@@ -1,0 +1,9 @@
+export { AboutPage } from "./about-page/about-page";
+export { BookDetailsPage, BookDisplayPage, BookFormPage } from "./book-pages";
+export { ErrorPage } from "./error-page/error-page";
+export { HomePage } from "./home-page/home-page";
+export { NotFoundPage } from "./not-found-page/not-found-page";
+export { ResetPasswordPage } from "./reset-password-page/reset-password-page";
+export { SignInPage } from "./sign-in-page/sign-in-page";
+export { SignUpPage } from "./sign-up-page/sign-up-page";
+export { UserProfilePage } from "./user-profile-page/user-profile-page";
