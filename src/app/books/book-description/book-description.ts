@@ -15,6 +15,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   selector: 'app-book-description',
   templateUrl: './book-description.html',
   styleUrl: './book-description.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [],
 })
 export class BookDescription {}
