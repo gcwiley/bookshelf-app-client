@@ -1,0 +1,40 @@
+@use '../../../styles/helpers/constants';
+
+.home-page-container {
+  max-width: constants.$max-width;
+  min-height: 100vh;
+  margin: auto;
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.actions {
+  align-self: flex-end; // move the wrapper to the far right in the column layout
+}
+
+.action a {
+  display: inline-flex; // prevents mat button from stretching full width
+  width: auto;
+}
+
+.title {
+  font: var(--mat-sys-headline-small);
+  color: var(--mat-sys-primary);
+}
+
+.welcome-text {
+  font: var(--mat-sys-body-large);
+  color: var(--mat-sys-primary);
+}
+
+// responsive tweak
+@media (max-width: 700px) {
+  .home-page-container {
+    padding: 1.25rem 0.75rem;
+  }
+  .title {
+    font-size: 1.25rem;
+  }
+}

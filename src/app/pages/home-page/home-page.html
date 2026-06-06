@@ -1,1 +1,22 @@
-<p>home-page works!</p>
+<header role="banner">
+  <app-navbar></app-navbar>
+</header>
+
+<app-hero></app-hero>
+
+<main
+  class="home-page-container"
+  role="main"
+  aria-label="Homepage Main Content">
+  <h1 class="title">Featured Books</h1>
+
+  <mat-divider></mat-divider>
+
+  <div class="actions">
+    <a matButton routerLink="/books" aria-label="View all books">View all books</a>
+  </div>
+  
+  <app-book-carousel [books]="(featuredBooks$ | async) ?? []" aria-label="Featured projects carousel"></app-book-carousel>
+</main>
+
+<app-footer></app-footer>

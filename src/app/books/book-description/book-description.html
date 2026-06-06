@@ -1,1 +1,6 @@
-<p>book-description works!</p>
+@if (book$ | async; as book) {
+<section class="book-description" aria-label="Book Description">
+  <h1 class="book-title">{{ book.title }}</h1>
+  <p class="book-description">{{ book.summary }}</p>
+</section>
+}

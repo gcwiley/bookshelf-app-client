@@ -1,1 +1,18 @@
-<p>not-found-page works!</p>
+<main class="not-found-page-container" aria-label="Not Found Page">
+  <div
+    class="page-content"
+    role="main"
+    aria-labelledby="nf-title"
+    aria-describedby="nf-desc">
+    <h1 id="nf-title" class="nf-title">Page not found</h1>
+    <p id="nf-desc" class="nf-desc">
+      We're sorry. The page you are looking for cannot be found.
+    </p>
+
+    <div class="nf-actions" role="group" aria-label="Not found actions">
+      <a routerLink="/" mat-flat-button class="action-btn" aria-label="Go home"
+        >Go Home</a
+      >
+    </div>
+  </div>
+</main>

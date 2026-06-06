@@ -5,17 +5,32 @@ import { CommonModule } from '@angular/common';
 // rxjs
 import { of, Observable, map, filter, switchMap, catchError } from 'rxjs';
 
-// angular material
-import { MatDividerModule } from '@angular/material/divider';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
+// book service and interface
+import { BookService } from '../../services/book.service';
+import { Book } from '../../types/book.interface';
 
 @Component({
   selector: 'app-book-description',
   templateUrl: './book-description.html',
   styleUrl: './book-description.scss',
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [],
+  imports: [CommonModule, RouterModule],
 })
-export class BookDescription {}
+export class BookDescription {
+  // inject dependencies
+  private readonly route = inject(ActivatedRoute);
+  private readonly bookService = inject(BookService);
+
+  public book$: Observable<Book | undefined> = this.route.paramMap.pipe(
+    map((pm) => pm.get('id')),
+    filter((id): id is string => !!id),
+    switchMap((id) =>
+      this.bookService.getBookById(id).pipe(
+        catchError((error) => {
+          console.error('Error fetching book:', error);
+          return of(undefined);
+        }),
+      ),
+    ),
+  );
+}

@@ -1,10 +1,26 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+
+import { RouterModule, Router } from '@angular/router';
+
+// angular material
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-error-page',
-  imports: [],
   templateUrl: './error-page.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './error-page.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [RouterModule, MatButtonModule, MatCardModule],
 })
-export class ErrorPage {}
+export class ErrorPage {
+  private router = inject(Router);
+
+  public goHome(): void {
+    this.router.navigateByUrl('/');
+  }
+
+  public goBack(): void {
+    history.back();
+  }
+}

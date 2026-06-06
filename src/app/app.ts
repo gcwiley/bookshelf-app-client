@@ -1,13 +1,14 @@
-import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+
+// shared components
+import { AnnouncementBar } from './components';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
   templateUrl: './app.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './app.scss',
+  imports: [RouterOutlet, AnnouncementBar],
 })
-export class App {
-  protected readonly title = signal('bookshelf-client');
-}
+export class App {}

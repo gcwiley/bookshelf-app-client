@@ -20,9 +20,9 @@ export interface Book {
   rating: string;
 }
 
-// payload to create a post (client -> server)
+// payload to create a book (client -> server)
 // excludes server-generated fields like id, created, updatedAt
-export type PostInput = Omit<Book, 'id' | 'createdAt' | 'updatedAt'>;
+export type BookInput = Omit<Book, 'id' | 'createdAt' | 'updatedAt'>;
 
 // --- HELPER INTERFACES FOR UI LIST ---
 

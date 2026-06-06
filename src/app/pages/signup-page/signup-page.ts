@@ -2,9 +2,9 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'app-sign-up-page',
-  imports: [],
-  templateUrl: './sign-up-page.html',
+  templateUrl: './signup-page.html',
   changeDetection: ChangeDetectionStrategy.Eager,
-  styleUrl: './sign-up-page.scss',
+  styleUrl: './signup-page.scss',
+  imports: [],
 })
 export class SignUpPage {}
