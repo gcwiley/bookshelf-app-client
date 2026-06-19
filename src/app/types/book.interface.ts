@@ -6,18 +6,20 @@ export interface Book {
   _id: string;
   title: string;
   author: string;
-  isdb: string;
+  isbn: string;
   publicationDate: string;
   pageCount: string;
   genre: string;
   isFavorite: boolean;
   summary: string;
-  coverImageUrl: string;
+  coverImageUrl?: string; // optional field
   publisher: string;
   language: string;
-  publishedFormat: string;
+  publishedFormat: string | null;
   tags: string;
   rating: string;
+  readonly createdAt: ISODateString;
+  readonly updatedAt: ISODateString;
 }
 
 // payload to create a book (client -> server)

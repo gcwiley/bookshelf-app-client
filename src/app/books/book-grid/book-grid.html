@@ -1,1 +1,47 @@
-<p>book-grid works!</p>
+@if (books$ | async; as bookList) { @if (bookList.length > 0) {
+<div class="post-grid-container">
+  @for (book of bookList; track book._id) {
+  <mat-card appearance="outlined" class="post-card">
+    <mat-card-header>
+      <mat-card-subtitle>
+        <span>{{ book.publicationDate | date:'mediumDate' }} • {{ book.genre }}</span>
+      </mat-card-subtitle>
+      <mat-card-subtitle>
+        @if (book.publicationDate) {
+        <span class="time-ago">{{ book.publicationDate| timeAgo }}</span>
+        }
+      </mat-card-subtitle>
+      <mat-card-title>{{ book.title }}</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <p class="post-excerpt">{{ book.summary }}</p>
+    </mat-card-content>
+
+    <mat-card-actions align="end">
+      <a matButton routerLink="/books/{{ book._id }}">Read More</a>
+    </mat-card-actions>
+  </mat-card>
+  }
+</div>
+
+<mat-paginator
+  [length]="totalBooks()"
+  [pageSize]="pageSize()"
+  [pageSizeOptions]="[6, 12, 24]"
+  (page)="onPageChange($event)"
+  aria-label="Select page">
+</mat-paginator>
+
+} @else {
+<!-- Empty State -->
+<div class="empty-message">
+  <mat-icon>sentiment_dissatisfied</mat-icon>
+  <p>No posts found.</p>
+</div>
+} } @else {
+<!-- Loading State -->
+<div class="spinner-container">
+  <mat-spinner diameter="50"></mat-spinner>
+</div>
+}

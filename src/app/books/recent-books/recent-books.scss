@@ -1,0 +1,10 @@
+@use '../../../styles/helpers/constants';
+
+.recent-books {
+  background: var(--mat-sys-primary-container);
+  color: var(--mat-sys-on-primary-container);
+  font: var(--mat-sys-body-medium);
+  margin-top: 2rem;
+  padding: 1rem;
+  border-radius: 1rem;
+}
