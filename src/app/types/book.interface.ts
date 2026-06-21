@@ -1,11 +1,22 @@
 // ISO 8601 date/time string type for consistent date handling across the app
 export type ISODateString = string;
 
+export interface Author {
+  _id: string;
+  name: string;
+  biography?: string;
+}
+
+export interface BookRating {
+  averageRating: number;
+  ratingsCount: number;
+}
+
 // define the book interface
 export interface Book {
   _id: string;
   title: string;
-  author: string;
+  author: Author | string; // Author object is populated, or ID string
   isbn: string;
   publicationDate: string;
   pageCount: string;
@@ -15,8 +26,8 @@ export interface Book {
   coverImageUrl?: string; // optional field
   publisher: string;
   language: string;
-  publishedFormat: string | null;
-  tags: string;
+  publishedFormat: 'Hardcover' | 'Paperback' | 'Ebook' | 'Audiobook' | null;
+  tags: string[];
   rating: string;
   readonly createdAt: ISODateString;
   readonly updatedAt: ISODateString;
