@@ -1,181 +1,267 @@
-<form
-  [formGroup]="projectForm"
-  novalidate
-  (ngSubmit)="onSaveProject()"
-  aria-label="Project Form">
-  <mat-card class="project-form" appearance="outlined">
+<form [formGroup]="bookForm" novalidate (ngSubmit)="onSaveBook()" class="book-form-container">
+  <mat-card class="book-form-card" appearance="outlined">
     <mat-card-content>
-      <!-- title -->
-      <mat-form-field class="full-width" appearance="outline">
-        <mat-label>Project Title</mat-label>
-        <input
-          matInput
-          type="text"
-          formControlName="title"
-          title="Project Title"
-          aria-describedby="title-error" />
-        @if (projectForm.controls.title.hasError('required') &&
-        (projectForm.controls.title.touched || submitted())) {
-        <mat-error id="title-error" aria-live="polite">
-          Please provide a project title.
-        </mat-error>
-        }
-      </mat-form-field>
-
-      <div class="row">
-        <div class="col">
-          <!-- project status -->
-          <mat-form-field class="full-width" appearance="outline">
-            <mat-label>Project Status</mat-label>
-            <mat-select
-              formControlName="status"
-              aria-describedby="status-error">
-              @for (status of statuses; track status.value) {
-              <mat-option [value]="status.value">
-                {{ status.viewValue }}
-              </mat-option>
-              }
-            </mat-select>
-            @if (projectForm.controls.status.hasError('required') &&
-            (projectForm.controls.status.touched || submitted())) {
-            <mat-error id="status-error" aria-live="polite">
-              Please select a project status.
+      <div class="form-grid">
+        
+        <!-- title -->
+        <mat-form-field class="grid-col-2" appearance="outline">
+          <mat-label>Book Title</mat-label>
+          <input
+            matInput
+            type="text"
+            formControlName="title"
+            placeholder="e.g. The Hobbit"
+            title="Book Title"
+            aria-describedby="title-error" />
+          @if (bookForm.controls.title.hasError('required') && (bookForm.controls.title.touched || submitted())) {
+            <mat-error id="title-error" aria-live="polite">
+              Please provide a book title.
             </mat-error>
+          }
+        </mat-form-field>
+
+        <!-- author -->
+        <mat-form-field appearance="outline">
+          <mat-label>Author</mat-label>
+          <input
+            matInput
+            type="text"
+            formControlName="author"
+            placeholder="e.g. J.R.R. Tolkien"
+            title="Author"
+            aria-describedby="author-error" />
+          @if (bookForm.controls.author.hasError('required') && (bookForm.controls.author.touched || submitted())) {
+            <mat-error id="author-error" aria-live="polite">
+              Please provide the author's name.
+            </mat-error>
+          }
+        </mat-form-field>
+
+        <!-- publisher -->
+        <mat-form-field appearance="outline">
+          <mat-label>Publisher</mat-label>
+          <input
+            matInput
+            type="text"
+            formControlName="publisher"
+            placeholder="e.g. George Allen"
+            title="Publisher"
+            aria-describedby="publisher-error" />
+          @if (bookForm.controls.publisher.hasError('required') && (bookForm.controls.publisher.touched || submitted())) {
+            <mat-error id="publisher-error" aria-live="polite">
+              Please provide the publisher.
+            </mat-error>
+          }
+        </mat-form-field>
+
+        <!-- genre fix this! -->
+        <mat-form-field appearance="outline">
+          <mat-label>Genre</mat-label>
+          <mat-select formControlName="genre" title="Genre" aria-describedby="genre-error">
+            <mat-option value="Fiction">Fiction</mat-option>
+            <mat-option value="Non-Fiction">Non-Fiction</mat-option>
+            <mat-option value="Science Fiction">Science Fiction</mat-option>
+            <mat-option value="Fantasy">Fantasy</mat-option>
+            <mat-option value="Mystery">Mystery</mat-option>
+            <mat-option value="Thriller">Thriller</mat-option>
+            <mat-option value="Biography">Biography</mat-option>
+            <mat-option value="History">History</mat-option>
+            <mat-option value="Poetry">Poetry</mat-option>
+            <mat-option value="Romance">Romance</mat-option>
+            <mat-option value="Other">Other</mat-option>
+          </mat-select>
+          @if (bookForm.controls.genre.hasError('required') && (bookForm.controls.genre.touched || submitted())) {
+            <mat-error id="genre-error" aria-live="polite">
+              Please select a genre.
+            </mat-error>
+          }
+        </mat-form-field>
+
+        <!-- language -->
+        <mat-form-field appearance="outline">
+          <mat-label>Language</mat-label>
+          <input
+            matInput
+            type="text"
+            formControlName="language"
+            placeholder="e.g. English"
+            title="Language"
+            aria-describedby="language-error" />
+          @if (bookForm.controls.language.hasError('required') && (bookForm.controls.language.touched || submitted())) {
+            <mat-error id="language-error" aria-live="polite">
+              Please specify the language.
+            </mat-error>
+          }
+        </mat-form-field>
+
+        <!-- publication date -->
+        <mat-form-field appearance="outline">
+          <mat-label>Publication Date</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker"
+            formControlName="publicationDate"
+            title="Publication Date"
+            aria-describedby="publicationDate-error" />
+          <mat-datepicker-toggle matSuffix [for]="picker" title="Open calendar"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          @if (bookForm.controls.publicationDate.hasError('required') && (bookForm.controls.publicationDate.touched || submitted())) {
+            <mat-error id="publicationDate-error" aria-live="polite">
+              Please select a publication date.
+            </mat-error>
+          }
+        </mat-form-field>
+
+        <!-- published format -->
+        <mat-form-field appearance="outline">
+          <mat-label>Format</mat-label>
+          <mat-select formControlName="publishedFormat" title="Published Format" aria-describedby="publishedFormat-error">
+            <mat-option value="Hardcover">Hardcover</mat-option>
+            <mat-option value="Paperback">Paperback</mat-option>
+            <mat-option value="Ebook">Ebook</mat-option>
+            <mat-option value="Audiobook">Audiobook</mat-option>
+          </mat-select>
+          @if (bookForm.controls.publishedFormat.hasError('required') && (bookForm.controls.publishedFormat.touched || submitted())) {
+            <mat-error id="publishedFormat-error" aria-live="polite">
+              Please select a published format.
+            </mat-error>
+          }
+        </mat-form-field>
+
+        <!-- isbn -->
+        <mat-form-field appearance="outline">
+          <mat-label>ISBN</mat-label>
+          <input
+            matInput
+            type="text"
+            formControlName="isbn"
+            placeholder="e.g. 9780007525546"
+            title="ISBN"
+            aria-describedby="isbn-error" />
+          @if (bookForm.controls.isbn.touched || submitted()) {
+            @if (bookForm.controls.isbn.hasError('required')) {
+              <mat-error id="isbn-error" aria-live="polite">
+                Please provide the ISBN code.
+              </mat-error>
+            } @else if (bookForm.controls.isbn.hasError('pattern')) {
+              <mat-error id="isbn-error" aria-live="polite">
+                Please enter a valid ISBN-10 or ISBN-13 (digits and hyphens only).
+              </mat-error>
             }
-          </mat-form-field>
+          }
+        </mat-form-field>
+
+        <!-- page count -->
+        <mat-form-field appearance="outline">
+          <mat-label>Page Count</mat-label>
+          <input
+            matInput
+            type="number"
+            formControlName="pageCount"
+            placeholder="e.g. 310"
+            title="Page Count"
+            aria-describedby="pageCount-error" />
+          @if (bookForm.controls.pageCount.touched || submitted()) {
+            @if (bookForm.controls.pageCount.hasError('required')) {
+              <mat-error id="pageCount-error" aria-live="polite">
+                Please enter the page count.
+              </mat-error>
+            } @else if (bookForm.controls.pageCount.hasError('min')) {
+              <mat-error id="pageCount-error" aria-live="polite">
+                Page count must be 1 or more.
+              </mat-error>
+            }
+          }
+        </mat-form-field>
+
+        <!-- rating -->
+        <mat-form-field appearance="outline">
+          <mat-label>Rating (0 - 5)</mat-label>
+          <input
+            matInput
+            type="number"
+            min="0"
+            max="5"
+            step="0.1"
+            formControlName="rating"
+            placeholder="e.g. 4.8"
+            title="Rating"
+            aria-describedby="rating-error" />
+          @if (bookForm.controls.rating.touched || submitted()) {
+            @if (bookForm.controls.rating.hasError('required')) {
+              <mat-error id="rating-error" aria-live="polite">
+                Please provide a rating.
+              </mat-error>
+            } @else if (bookForm.controls.rating.hasError('min') || bookForm.controls.rating.hasError('max')) {
+              <mat-error id="rating-error" aria-live="polite">
+                Rating must be between 0 and 5.
+              </mat-error>
+            }
+          }
+        </mat-form-field>
+
+        <!-- cover image URL -->
+        <mat-form-field appearance="outline">
+          <mat-label>Cover Image URL</mat-label>
+          <input
+            matInput
+            type="url"
+            formControlName="coverImageUrl"
+            placeholder="e.g. https://example.com/cover.jpg"
+            title="Cover Image URL" />
+        </mat-form-field>
+
+        <!-- tags -->
+        <mat-form-field class="grid-col-2" appearance="outline">
+          <mat-label>Tags (comma-separated)</mat-label>
+          <input
+            matInput
+            type="text"
+            formControlName="tags"
+            placeholder="e.g. Classics, Adventure, Fiction"
+            title="Tags"
+            aria-describedby="tags-error" />
+          <mat-hint>Enter words separated by commas.</mat-hint>
+          @if (bookForm.controls.tags.hasError('required') && (bookForm.controls.tags.touched || submitted())) {
+            <mat-error id="tags-error" aria-live="polite">
+              Please provide at least one tag.
+            </mat-error>
+          }
+        </mat-form-field>
+
+        <!-- summary -->
+        <mat-form-field class="grid-col-2" appearance="outline">
+          <mat-label>Summary</mat-label>
+          <textarea
+            matInput
+            rows="4"
+            formControlName="summary"
+            placeholder="Enter a brief summary of the book..."
+            title="Summary"
+            aria-describedby="summary-error"></textarea>
+          @if (bookForm.controls.summary.hasError('required') && (bookForm.controls.summary.touched || submitted())) {
+            <mat-error id="summary-error" aria-live="polite">
+              Please provide a summary.
+            </mat-error>
+          }
+        </mat-form-field>
+
+        <!-- is favorite -->
+        <div class="grid-col-2 toggle-container">
+          <mat-slide-toggle formControlName="isFavorite" color="primary">
+            Add to Favorites
+          </mat-slide-toggle>
         </div>
 
-        <div class="col">
-          <!-- project category -->
-          <mat-form-field class="full-width" appearance="outline">
-            <mat-label>Category</mat-label>
-            <mat-select formControlName="category" aria-describedby="category-error">
-              @for (category of categories; track category.value) {
-              <mat-option [value]="category.value"
-                >{{ category.viewValue }}</mat-option
-              >
-              }
-            </mat-select>
-            @if (projectForm.controls.category.hasError('required') &&
-            (projectForm.controls.category.touched || submitted())) {
-            <mat-error id="category-error" aria-live="polite">
-              Please select a project category.
-            </mat-error>
-            }
-          </mat-form-field>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col">
-          <!-- startDate -->
-          <mat-form-field class="full-width" appearance="outline">
-            <mat-label>Start Date</mat-label>
-            <input
-              matInput
-              [matDatepicker]="picker"
-              formControlName="startDate"
-              title="Start Date"
-              aria-describedby="startDate-error" />
-            <mat-datepicker-toggle
-              matSuffix
-              [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-
-            @if (projectForm.controls.startDate.hasError('required') &&
-            (projectForm.controls.startDate.touched || submitted())) {
-            <mat-error id="startDate-error" aria-live="polite">
-              Please provide a project start date.
-            </mat-error>
-            }
-          </mat-form-field>
-        </div>
-
-        <div class="col">
-          <!-- programming language -->
-          <mat-form-field class="full-width" appearance="outline">
-            <mat-label>Programming Language</mat-label>
-            <mat-select formControlName="programmingLanguage" aria-describedby="programmingLanguage-error">
-              @for (language of languages; track language.value) {
-              <mat-option [value]="language.value"
-                >{{ language.viewValue }}</mat-option
-              >
-              }
-            </mat-select>
-            @if (projectForm.controls.programmingLanguage.hasError('required')
-            && (projectForm.controls.programmingLanguage.touched ||
-            submitted())) {
-            <mat-error aria-live="polite">
-              Please select a programming language.
-            </mat-error>
-            }
-          </mat-form-field>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col">
-          <!-- github url -->
-          <mat-form-field class="full-width" appearance="outline">
-            <mat-label>GitHub URL</mat-label>
-            <input
-              matInput
-              type="url"
-              formControlName="gitUrl"
-              placeholder="GitHub Url"
-              aria-describedby="github-url-error" />
-            @if (projectForm.controls.gitUrl.hasError('required') &&
-            (projectForm.controls.gitUrl.touched || submitted())) {
-            <mat-error id="github-url-error" aria-live="polite">
-              Please enter a GitHub URL.
-            </mat-error>
-            } @if (projectForm.controls.gitUrl.hasError('pattern') &&
-            (projectForm.controls.gitUrl.touched || submitted())) {
-            <mat-error id="github-url-pattern-error" aria-live="polite">
-              Please enter a valid URL (must start with http:// or https://).
-            </mat-error>
-            }
-          </mat-form-field>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col">
-          <!-- description -->
-          <mat-form-field class="full-width" appearance="outline">
-            <mat-label>Description</mat-label>
-            <textarea
-              matInput
-              rows="6"
-              formControlName="description"
-              title="Description"
-              aria-describedby="description-error"></textarea>
-            @if (projectForm.controls.description.hasError('required') &&
-            (projectForm.controls.description.touched || submitted())) {
-            <mat-error id="description-error" aria-live="polite">
-              Please provide a project description.
-            </mat-error>
-            }
-          </mat-form-field>
-        </div>
       </div>
     </mat-card-content>
 
-    <mat-card-actions class="card-actions">
-      <button
-        matButton="filled"
-        type="submit"
-        aria-label="{{ mode() === 'create' ? 'Create Project' : 'Update Project' }}"
-        [disabled]="projectForm.invalid || isSaving()">
-        {{ mode() === 'create' ? 'Create' : 'Update' }}
-      </button>
-      <button
-        matButton="outlined"
-        type="button"
-        (click)="onCancel()"
-        aria-label="Cancel"
-        [disabled]="isSaving()">
+    <mat-card-actions class="form-actions" align="end">
+      <button mat-stroked-button type="button" (click)="onCancel()" [disabled]="isSaving()">
         Cancel
+      </button>
+      <button mat-flat-button color="primary" type="submit" [disabled]="isSaving()">
+        {{ isSaving() ? 'Saving...' : (mode() === 'edit' ? 'Update Book' : 'Add Book') }}
       </button>
     </mat-card-actions>
   </mat-card>

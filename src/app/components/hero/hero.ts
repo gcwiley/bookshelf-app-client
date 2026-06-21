@@ -12,6 +12,6 @@ import { MatButtonModule } from '@angular/material/button';
   imports: [RouterModule, MatButtonModule],
 })
 export class Hero {
-  public readonly title = input<string>('Greg Wiley');
-  public readonly subtitle = input<string>('Full Stack Web Developer');
+  public readonly title = input<string>('Bookshelf');
+  public readonly subtitle = input<string>('A place to organize your books.');
 }

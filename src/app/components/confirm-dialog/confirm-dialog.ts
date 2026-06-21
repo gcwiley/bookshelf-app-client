@@ -4,12 +4,13 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 
+// model for confirm dialog
 export interface ConfirmDialogData {
    title: string;
    message: string;
    confirmText: string;
    cancelText: string;
-   color: 'primary' | 'accent' | 'warn';
+   isDestructive: boolean;
 }
 
 @Component({
@@ -20,6 +21,6 @@ export interface ConfirmDialogData {
    imports: [MatDialogModule, MatButtonModule ],
 })
 export class ConfirmDialog {
-   // inject dependencies
+   // inject dependencies 
    public readonly data = inject<ConfirmDialogData>(MAT_DIALOG_DATA);
 }

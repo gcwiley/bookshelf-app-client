@@ -99,8 +99,7 @@ export class SignInPage implements OnInit {
       .signInWithEmailAndPassword(email, password)
       .pipe(
         catchError((error) => {
-          const message = this.getErrorMessage(error.code);
-          this.errorMessage.set(message);
+          this.errorMessage.set(error.message);
           return of(null);
         }),
       )
@@ -122,52 +121,6 @@ export class SignInPage implements OnInit {
           });
         },
       });
-  }
-
-  public onSignInWithGoogle(): void {
-    if (this.googleLoading()) return;
-
-    this.googleLoading.set(true);
-
-    this.authService
-      .signInWithGoogle()
-      .pipe(
-        catchError((error) => {
-          console.error('Google sign-in error', error);
-          this.snackBar.open(
-            'Google sign-in failed. Please try again.',
-            'Close',
-            {
-              duration: SNACK_BAR_DURATION_MS,
-            },
-          );
-          return of(null);
-        }),
-      )
-      .subscribe({
-        next: (credential) => {
-          this.googleLoading.set(false);
-          if (credential) {
-            this.router.navigateByUrl('/');
-          }
-        },
-        error: () => {
-          this.googleLoading.set(false);
-        },
-      });
-  }
-
-  private getErrorMessage(errorCode: string): string {
-    switch (errorCode) {
-      case 'auth/user-not-found':
-      case 'auth/wrong-password':
-      case 'auth/invalid-credential':
-        return ERROR_MESSAGES.INVALID_CREDENTIALS;
-      case 'auth/network-request-failed':
-        return ERROR_MESSAGES.NETWORK_ERROR;
-      default:
-        return ERROR_MESSAGES.UNKNOWN_ERROR;
-    }
   }
 
   public get formControls(): Record<string, AbstractControl> {

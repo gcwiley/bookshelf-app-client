@@ -1,0 +1,102 @@
+<main class="signup-page-container" aria-label="Sign Up Page">
+  <mat-card class="signup-form" appearance="raised">
+    <div class="title-text">
+      <h1>Sign Up</h1>
+      <p>Create a new account.</p>
+    </div>
+    <mat-card-content>
+      <form [formGroup]="signupForm" (ngSubmit)="onSubmitSignUp()">
+        <!-- email field -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email</mat-label>
+          <input
+            matInput
+            type="email"
+            formControlName="email"
+            autocomplete="email"
+            aria-label="Email" />
+          @if (formControls['email'].hasError('required')) {
+          <mat-error aria-live="polite"
+            >Please enter your email address.</mat-error
+          >
+          } @if (formControls['email'].hasError('email')) {
+          <mat-error aria-live="polite">Invalid email format.</mat-error>
+          }
+        </mat-form-field>
+
+        <!-- password field -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Password</mat-label>
+          <input
+            matInput
+            [type]="showPassword() ? 'text' : 'password'"
+            formControlName="password"
+            autocomplete="new-password"
+            aria-label="Password" />
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="toggleShowPassword()"
+            [attr.aria-label]="showPassword() ? 'Hide password' : 'Show password'">
+            <mat-icon>
+              {{ showPassword() ? 'visibility_off' : 'visibility' }}
+            </mat-icon>
+          </button>
+          @if (formControls['password'].hasError('required')) {
+          <mat-error aria-live="polite">Please enter your password.</mat-error>
+          } @if (formControls['password'].hasError('minlength')) {
+          <mat-error aria-live="polite"
+            >Your password must be at least 6 characters.</mat-error
+          >
+          }
+        </mat-form-field>
+
+        <!-- confirm password field -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Confirm Password</mat-label>
+          <input
+            matInput
+            [type]="showConfirmPassword() ? 'text' : 'password'"
+            formControlName="confirmPassword"
+            autocomplete="new-password"
+            aria-label="Confirm Password" />
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="toggleShowConfirmPassword()"
+            [attr.aria-label]="showConfirmPassword() ? 'Hide password' : 'Show password'">
+            <mat-icon>
+              {{ showConfirmPassword() ? 'visibility_off' : 'visibility' }}
+            </mat-icon>
+          </button>
+          @if (formControls['confirmPassword'].hasError('required')) {
+          <mat-error aria-live="polite">Please confirm your password.</mat-error>
+          } @if (signupForm.hasError('mismatch') && formControls['confirmPassword'].touched) {
+          <mat-error aria-live="polite">Passwords do not match.</mat-error>
+          }
+        </mat-form-field>
+
+        <!-- sign up button -->
+        <button
+          matButton="filled"
+          class="sign-up-button"
+          type="submit"
+          [disabled]="signupForm.invalid || isLoading()">
+          Sign Up
+        </button>
+
+        <div class="signin-link-container">
+          Already have an account? <a routerLink="/signin">Sign In</a>
+        </div>
+      </form>
+    </mat-card-content>
+    <mat-card-footer
+      class="signup-footer"
+      role="contentinfo"
+      aria-label="Copyright">
+      <small>&copy; {{ year }} Gregory Wiley. All rights reserved.</small>
+    </mat-card-footer>
+  </mat-card>
+</main>

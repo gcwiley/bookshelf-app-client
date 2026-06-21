@@ -1,1 +1,33 @@
+<header>
+  <app-navbar></app-navbar>
+</header>
 
+<main
+  class="book-form-page-container"
+  aria-label="Create Book Page"
+  role="main">
+  <article class="main-content">
+    <div class="page-header">
+      <a
+        routerLink="/books"
+        class="back-link"
+        aria-label="Back to all books">
+        <mat-icon>arrow_back</mat-icon>
+        <span>All Books</span>
+      </a>
+      <h1 class="page-title">New Book</h1>
+      <p class="page-subtitle">Fill out the details below to add a new book to your bookshelf.</p>
+    </div>
+    <app-book-form></app-book-form>
+  </article>
+
+  <aside
+    class="side-content"
+    role="complementary"
+    aria-labelledby="recent-books-heading">
+    <h2 id="recent-book-heading" class="side-title">Recent Books</h2>
+    <app-recent-books></app-recent-books>
+  </aside>
+</main>
+
+<app-footer></app-footer>

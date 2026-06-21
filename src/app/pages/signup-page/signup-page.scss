@@ -1,0 +1,130 @@
+// animation for the card entrance
+@keyframes slideUpFade {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.signup-page-container {
+  background:
+    linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)),
+    url('/images/sign_in_graphic.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.signup-form {
+  width: 100%;
+  max-width: 420px;
+  padding: 2rem 1.5rem;
+
+  // Glass effect
+  background: var(--mat-sys-surface-container-low);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+
+  // Animation
+  animation: slideUpFade 0.6s ease-out forwards;
+
+  // force input text color to match theme
+  input.mat-mdc-input-element {
+    color: var(--mat-sys-on-surface);
+  }
+
+  // Override browser autofill styles
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--mat-sys-on-surface);
+    transition: background-color 5000s ease-in-out 0s;
+  }
+}
+
+.full-width {
+  width: 100%;
+  margin: 0.4rem 0;
+}
+
+.sign-up-button {
+  width: 100%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.title-text {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.title-text h1 {
+  font: var(--mat-sys-headline-small);
+  margin: 0;
+}
+
+.title-text p {
+  font: var(--mat-sys-body-medium);
+  margin: 0;
+}
+
+.signin-link-container {
+  margin-top: 1.5rem;
+  text-align: center;
+  font: var(--mat-sys-body-medium);
+  color: var(--mat-sys-on-surface-variant);
+
+  a {
+    color: var(--mat-sys-primary);
+    text-decoration: none;
+    font-weight: 600;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.signup-footer {
+  font: var(--mat-sys-label-small);
+  margin-top: 12px;
+  text-align: center;
+  width: 100%;
+}
+
+.signup-footer small {
+  color: var(
+    --mat-sys-on-surface-variant
+  ); // use theme token instead of hardcoded rgba
+  font-size: 0.85rem;
+  display: inline-block;
+  margin-top: 6px;
+}
+
+// mobile adjustments
+@media (max-width: 500px) {
+  .signup-form {
+    padding: 1.5rem 1rem;
+  }
+}

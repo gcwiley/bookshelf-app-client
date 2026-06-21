@@ -1,1 +1,101 @@
-<p>book-carousel works!</p>
+<div class="carousel-container" role="region" aria-label="Book Carousel">
+  @if (books().length > 0) {
+    <!-- Navigation Buttons -->
+    <button
+      mat-icon-button
+      class="carousel-nav-btn prev"
+      (click)="prevSlide()"
+      aria-label="Previous Book">
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+
+    <!-- Carousel Viewport -->
+    <div class="carousel-viewport">
+      <div
+        class="carousel-track"
+        [style.transform]="'translateX(' + (-currentIndex() * 100) + '%)'">
+        
+        @for (book of books(); track book._id; let idx = $index) {
+          <div class="carousel-slide" [class.active]="idx === currentIndex()">
+            <div class="carousel-card-wrapper">
+              <mat-card class="book-card" appearance="raised">
+                <!-- Book Cover graphic -->
+                <div class="book-cover" [ngStyle]="getCoverStyle(book)">
+                  <div class="cover-overlay">
+                    <span class="genre-tag">{{ book.genre }}</span>
+                    @if (!book.coverImageUrl) {
+                      <div class="cover-text-details">
+                        <span class="cover-title">{{ book.title }}</span>
+                        <span class="cover-author">by {{ getAuthorName(book) }}</span>
+                      </div>
+                    }
+                  </div>
+                </div>
+
+                <!-- Book details block -->
+                <mat-card-content class="book-details">
+                  <h2 class="book-title">{{ book.title }}</h2>
+                  <p class="book-author">By {{ getAuthorName(book) }}</p>
+                  
+                  <div class="book-meta">
+                    @if (book.rating) {
+                      <div class="rating">
+                        <mat-icon class="star-icon">star</mat-icon>
+                        <span>{{ book.rating }}</span>
+                      </div>
+                    }
+                    @if (book.publishedFormat) {
+                      <span class="format-badge">{{ book.publishedFormat }}</span>
+                    }
+                  </div>
+
+                  <p class="book-summary">{{ book.summary }}</p>
+                </mat-card-content>
+
+                <mat-card-actions class="book-actions">
+                  <a
+                    mat-flat-button
+                    color="primary"
+                    [routerLink]="['/books', book._id]"
+                    aria-label="View book details">
+                    View Details
+                  </a>
+                </mat-card-actions>
+              </mat-card>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+
+    <button
+      mat-icon-button
+      class="carousel-nav-btn next"
+      (click)="nextSlide()"
+      aria-label="Next Book">
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+
+    <!-- Indicators -->
+    <div class="carousel-indicators" role="tablist">
+      @for (book of books(); track book._id; let idx = $index) {
+        <button
+          class="indicator-dot"
+          [class.active]="idx === currentIndex()"
+          (click)="goToSlide(idx)"
+          role="tab"
+          [attr.aria-selected]="idx === currentIndex()"
+          aria-label="Go to book {{ idx + 1 }}"
+          title="Go to book {{ idx + 1 }}">
+        </button>
+      }
+    </div>
+
+  } @else {
+    <!-- Empty State -->
+    <div class="carousel-empty">
+      <mat-icon class="empty-icon">menu_book</mat-icon>
+      <p>No featured books available at the moment.</p>
+    </div>
+  }
+</div>

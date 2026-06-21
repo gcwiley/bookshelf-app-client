@@ -118,6 +118,9 @@ export class AuthService {
         case 'auth/wrong-password':
           errorMessage = 'Incorrect password.';
           break;
+        case 'auth/invalid-credential':
+          errorMessage = 'Invalid email or password.';
+          break;
         case 'auth/invalid-email':
           errorMessage = 'Please enter a valid email address.';
           break;

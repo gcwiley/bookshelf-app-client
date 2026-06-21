@@ -45,5 +45,5 @@ export class HomePage {
 
   // expose observable directly
   public readonly featuredBooks$: Observable<Book[]> =
-    this.bookService.getBooks();
+    this.bookService.getFeaturedBooks();
 }

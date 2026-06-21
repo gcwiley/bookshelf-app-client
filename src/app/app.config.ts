@@ -6,14 +6,14 @@ import {
   withViewTransitions,
 } from '@angular/router';
 
-// firebase libraries
+// configures Firebase services to be available for injection
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+// configures AngularFire's Auth service to be available for injection
 import { provideAuth, getAuth } from '@angular/fire/auth';
 
 // configures Angular's HttpClient service to be available for injection
 import {
   provideHttpClient,
-  withFetch,
   withInterceptors,
 } from '@angular/common/http';
 
@@ -36,6 +36,6 @@ export const appConfig: ApplicationConfig = {
     ),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
-    provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
+    provideHttpClient(withInterceptors([authInterceptor])),
   ],
 };

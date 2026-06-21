@@ -63,7 +63,7 @@ export const routes: Routes = [
       },
     ],
   },
-  // --- PROJECT ROUTES ---
+  // --- BOOK ROUTES ---
   {
     path: 'books',
     children: [

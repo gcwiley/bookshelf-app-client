@@ -21,6 +21,7 @@ export const authGuard: CanActivateFn = (
   const auth = inject(Auth);
   const router = inject(Router);
 
+  // auth guard using RxJS operators. 
   return authState(auth).pipe(
     timeout(5000),
     take(1),

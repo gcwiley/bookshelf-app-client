@@ -1,5 +1,5 @@
 {
-  // turns compact folders off in explorer
+  // turns compact folders off in explorer 
   "explorer.compactFolders": false,
   // turns the minimap off
   "editor.minimap.enabled": false,
