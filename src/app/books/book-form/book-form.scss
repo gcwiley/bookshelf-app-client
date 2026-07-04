@@ -2,10 +2,12 @@
   display: block;
 }
 
+// style for book form container
 .book-form-container {
   width: 100%;
 }
 
+// styling for book form card 
 .book-form-card {
   padding: 2rem 1.5rem;
   border-radius: 16px;
@@ -18,6 +20,7 @@
   }
 }
 
+// styling for form grid
 .form-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

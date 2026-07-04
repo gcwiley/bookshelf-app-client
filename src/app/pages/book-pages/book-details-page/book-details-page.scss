@@ -1,0 +1,51 @@
+@use '../../../../styles/helpers/constants';
+
+.book-details-page-container {
+  max-width: constants.$max-width;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  min-height: calc(100vh - 8rem);
+  isolation: isolate;
+}
+
+.back-button {
+  flex-shrink: 0;
+  align-self: flex-start;
+  margin-top: 2rem;
+}
+
+.main-content {
+  flex: 1 1 constants.$main-content-flex-basis;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.side-content {
+  flex: 0 0 constants.$side-content-flex-basis;
+  max-width: constants.$side-content-max-width;
+  position: sticky;
+  top: 4rem;
+  align-self: flex-start;
+}
+
+// responsive: stack on small screens
+@media (max-width: 768px) {
+  .book-details-page-container {
+    flex-direction: column;
+  }
+
+  .main-content,
+  .side-content {
+    flex: 1 1 100%;
+    max-width: 100%;
+    position: static;
+  }
+
+  .back-button {
+    margin-top: 1rem;
+  }
+}

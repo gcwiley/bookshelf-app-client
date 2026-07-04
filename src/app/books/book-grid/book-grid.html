@@ -1,7 +1,7 @@
 @if (books$ | async; as bookList) { @if (bookList.length > 0) {
-<div class="post-grid-container">
+<div class="book-grid-container">
   @for (book of bookList; track book._id) {
-  <mat-card appearance="outlined" class="post-card">
+  <mat-card appearance="outlined" class="book-card">
     <mat-card-header>
       <mat-card-subtitle>
         <span>{{ book.publicationDate | date:'mediumDate' }} • {{ book.genre }}</span>
@@ -15,7 +15,7 @@
     </mat-card-header>
 
     <mat-card-content>
-      <p class="post-excerpt">{{ book.summary }}</p>
+      <p class="book-excerpt">{{ book.summary }}</p>
     </mat-card-content>
 
     <mat-card-actions align="end">
@@ -37,7 +37,7 @@
 <!-- Empty State -->
 <div class="empty-message">
   <mat-icon>sentiment_dissatisfied</mat-icon>
-  <p>No posts found.</p>
+  <p>No books found.</p>
 </div>
 } } @else {
 <!-- Loading State -->

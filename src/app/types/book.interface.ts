@@ -27,7 +27,7 @@ export interface Book {
   publisher: string;
   language: string;
   publishedFormat: 'Hardcover' | 'Paperback' | 'Ebook' | 'Audiobook' | null;
-  tags: string[];
+  tags: string[]; // array of tag string
   rating: string;
   readonly createdAt: ISODateString;
   readonly updatedAt: ISODateString;

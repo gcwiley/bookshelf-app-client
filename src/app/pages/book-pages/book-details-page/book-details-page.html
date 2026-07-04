@@ -1,1 +1,18 @@
-<p>book-details-page works!</p>
+<header>
+  <app-navbar></app-navbar>
+</header>
+
+<main class="book-details-page-container" aria-label="Book Details Page">
+  <article class="main-content">
+    <button mat-icon-button class="back-button" (click)="goBack()" aria-label="Back to books">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <app-book-description></app-book-description>
+  </article>
+
+  <aside class="side-content">
+    <app-book-details></app-book-details>
+  </aside>
+</main>
+
+<app-footer></app-footer>

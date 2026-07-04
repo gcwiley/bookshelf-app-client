@@ -1,18 +1,15 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
-
-// rxjs
-import { of, Observable, map, filter, switchMap, catchError } from 'rxjs';
+import { Router } from '@angular/router';
 
 // angular material
-import { MatListModule } from '@angular/material/list';
+import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
-// book service, interface
-import { BookService } from '../../../services/book.service';
-import { Book } from '../../../types/book.interface';
+// shared components
+import { Navbar, Footer } from '../../../components';
+
+// book components
+import { BookDescription, BookDetails } from '../../../books';
 
 @Component({
   selector: 'app-book-details-page',
@@ -20,28 +17,18 @@ import { Book } from '../../../types/book.interface';
   styleUrl: './book-details-page.scss',
   changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
-    CommonModule,
-    RouterModule,
-    MatListModule,
-    MatIconModule,
-    MatProgressSpinnerModule,
+    Navbar,
+    Footer,
+    BookDescription,
+    BookDetails,
+    MatButtonModule,
+    MatIconModule
   ],
 })
 export class BookDetailsPage {
-  // inject dependencies
-  private readonly route = inject(ActivatedRoute);
-  private readonly bookService = inject(BookService);
+  private readonly router = inject(Router);
 
-  public books$: Observable<Book | undefined> = this.route.paramMap.pipe(
-    map((pm) => pm.get('id')),
-    filter((id): id is string => !!id),
-    switchMap((id) =>
-      this.bookService.getBookById(id).pipe(
-        catchError((error) => {
-          console.error('Error fetching books:', error);
-          return of(undefined); // signal not found/error to template
-        }),
-      ),
-    ),
-  );
+  public goBack(): void {
+    this.router.navigate(['/books'])
+  }
 }

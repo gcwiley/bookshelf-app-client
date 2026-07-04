@@ -12,7 +12,8 @@
     "importHelpers": true,
     "target": "ES2022",
     "module": "ESNext",
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "bundler"
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

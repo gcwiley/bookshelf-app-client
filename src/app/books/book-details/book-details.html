@@ -1,21 +1,18 @@
 @if (book$ | async; as book) {
 <mat-list class="book-details-card" role="list" aria-label="Book Details">
-  <span mat-subheader>Book Details</span>
+  <span mat-subheader>About this book</span>
   <!-- author -->
   <mat-list-item lines="2" role="listitem">
-    <mat-icon matListItemIcon aria-label="Status info icon">info</mat-icon>
     <span matListItemTitle>Author</span>
     <span matListItemLine>{{ book.author }}</span>
   </mat-list-item>
   <!-- publication date -->
   <mat-list-item lines="2" role="listitem">
-    <mat-icon matListItemIcon aria-label="category icon">category</mat-icon>
     <span matListItemTitle>Publication Date</span>
-    <span matListItemLine>{{ book.publicationDate   }}</span>
+    <span matListItemLine>{{ book.publicationDate }}</span>
   </mat-list-item>
   <!-- publisher -->
   <mat-list-item lines="2" role="listitem">
-    <mat-icon matListItemIcon aria-label="code icon">code</mat-icon>
     <span matListItemTitle>Publisher</span>
     <span matListItemLine>{{ book.publisher }}</span>
   </mat-list-item>
