@@ -1,1 +1,112 @@
-<p>user-profile-page works!</p>
+<app-navbar></app-navbar>
+
+<main class="profile-page-container" aria-label="User Profile Page">
+  @if (user$ | async; as user) {
+    <mat-card class="profile-card" appearance="raised">
+      <!-- header with avatar & display info -->
+      <div class="profile-header">
+        <div class="avatar-container">
+          @if (user.photoURL) {
+            <img [src]="user.photoURL" alt="User Profile Picture" class="profile-avatar" />
+          } @else {
+            <div class="avatar-placeholder">
+              <mat-icon>person</mat-icon>
+            </div>
+          }
+        </div>
+        <h1 class="profile-name">{{ user.displayName || 'Bookshelf User' }}</h1>
+        <p class="profile-email">{{ user.email }}</p>
+        <span class="provider-badge">Google Auth Account</span>
+      </div>
+
+      <mat-card-content class="profile-details">
+        <!-- user metadata info list -->
+        <div class="details-section">
+          <h2>Account Details</h2>
+          <div class="detail-item">
+            <span class="detail-label">User ID</span>
+            <span class="detail-value text-mono">{{ user.uid }}</span>
+          </div>
+          @if (user.metadata.creationTime) {
+            <div class="detail-item">
+              <span class="detail-label">Member Since</span>
+              <span class="detail-value">{{ user.metadata.creationTime | date:'mediumDate' }}</span>
+            </div>
+          }
+          @if (user.metadata.lastSignInTime) {
+            <div class="detail-item">
+              <span class="detail-label">Last Signed In</span>
+              <span class="detail-value">{{ user.metadata.lastSignInTime | date:'medium' }}</span>
+            </div>
+          }
+        </div>
+
+        <!-- delete account confirm block -->
+        @if (showDeleteConfirm()) {
+          <div class="warning-box">
+            <mat-icon class="warning-icon">warning</mat-icon>
+            <div class="warning-text">
+              <h3>Delete Account?</h3>
+              <p>Are you sure you want to permanently delete your account? This action cannot be undone and will delete all your bookshelf data.</p>
+            </div>
+            <div class="warning-actions">
+              <button
+                mat-flat-button
+                color="warn"
+                [disabled]="isLoading()"
+                (click)="onDeleteAccount()"
+                type="button">
+                Yes, Delete
+              </button>
+              <button
+                mat-stroked-button
+                [disabled]="isLoading()"
+                (click)="cancelDelete()"
+                type="button">
+                Cancel
+              </button>
+            </div>
+          </div>
+        }
+      </mat-card-content>
+
+      <!-- actions -->
+      <mat-card-actions class="profile-actions">
+        @if (!showDeleteConfirm()) {
+          <button
+            mat-flat-button
+            color="primary"
+            class="action-btn"
+            [disabled]="isLoading()"
+            (click)="onSignOut()"
+            type="button">
+            @if (isLoading()) {
+              <mat-spinner diameter="20"></mat-spinner>
+            } @else {
+              <ng-container>
+                <mat-icon>logout</mat-icon>
+                <span>Sign Out</span>
+              </ng-container>
+            }
+          </button>
+          
+          <button
+            mat-button
+            color="warn"
+            class="action-btn text-warn"
+            [disabled]="isLoading()"
+            (click)="confirmDelete()"
+            type="button">
+            <mat-icon>delete_forever</mat-icon>
+            Delete Account
+          </button>
+        }
+      </mat-card-actions>
+    </mat-card>
+  } @else {
+    <div class="loading-container">
+      <mat-spinner></mat-spinner>
+      <p>Loading your profile details...</p>
+    </div>
+  }
+</main>

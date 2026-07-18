@@ -15,8 +15,10 @@
         <mat-icon>arrow_back</mat-icon>
         <span>All Books</span>
       </a>
-      <h1 class="page-title">New Book</h1>
-      <p class="page-subtitle">Fill out the details below to add a new book to your bookshelf.</p>
+      <h1 class="page-title">{{ isEditMode() ? 'Edit Book' : 'New Book' }}</h1>
+      <p class="page-subtitle">
+        {{ isEditMode() ? 'Update the details below to edit this book.' : 'Fill out the details below to add a new book to your bookshelf.' }}
+      </p>
     </div>
     <app-book-form></app-book-form>
   </article>

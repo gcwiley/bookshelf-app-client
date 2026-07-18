@@ -1,4 +1,6 @@
 import { Injectable, inject } from '@angular/core';
+
+// rxjs
 import { Observable, catchError, from, throwError, map } from 'rxjs';
 
 // firebase auth
@@ -14,6 +16,7 @@ import {
   User,
   updatePassword,
   sendPasswordResetEmail,
+  confirmPasswordReset,
   deleteUser,
 } from '@angular/fire/auth';
 
@@ -69,6 +72,18 @@ export class AuthService {
   // RESET USER PASSWORD
   public sendPasswordResetEmail(email: string): Observable<void> {
     return from(sendPasswordResetEmail(this.auth, email)).pipe(
+      catchError((error) => this.handleError(error))
+    );
+  }
+
+  // FORGOT PASSWORD
+  public forgotPassword(email: string): Observable<void> {
+    return this.sendPasswordResetEmail(email);
+  }
+
+  // CONFIRM PASSWORD RESET (using code from email link)
+  public confirmPasswordReset(code: string, newPassword: string): Observable<void> {
+    return from(confirmPasswordReset(this.auth, code, newPassword)).pipe(
       catchError((error) => this.handleError(error))
     );
   }

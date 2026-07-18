@@ -1,30 +1,19 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  OnInit,
   inject,
   signal,
 } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-  ReactiveFormsModule,
-  AbstractControl,
-} from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 
 // rxjs
-import { catchError, of } from 'rxjs';
+import { catchError, of, finalize } from 'rxjs';
 
 // angular material
 import { MatCardModule } from '@angular/material/card';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 // auth service
 import { AuthService } from '../../services/auth.service';
@@ -33,9 +22,7 @@ import { AuthService } from '../../services/auth.service';
 import { SNACK_BAR_DURATION_MS } from '../../constants/ui.constants';
 
 const ERROR_MESSAGES = {
-  INVALID_CREDENTIALS: 'Invalid email or password.',
-  NETWORK_ERROR: 'A network error occurred. Please try again later.',
-  UNKNOWN_ERROR: 'An unexpected error occurred.',
+  UNKNOWN_ERROR: 'An unexpected error occurred during Google Sign In.',
 } as const;
 
 @Component({
@@ -44,68 +31,37 @@ const ERROR_MESSAGES = {
   styleUrl: './signin-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    ReactiveFormsModule,
     RouterModule,
     MatCardModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatCheckboxModule,
     MatButtonModule,
-    MatIconModule,
+    MatProgressSpinnerModule,
   ],
 })
-export class SignInPage implements OnInit {
+export class SignInPage {
   public readonly isLoading = signal(false);
-  public readonly showPassword = signal(false);
-  public readonly googleLoading = signal(false);
   public readonly errorMessage = signal<string | null>(null);
   public readonly year = new Date().getFullYear();
 
-  public signinForm!: FormGroup;
-
   // inject dependencies
-  private readonly formBuilder = inject(FormBuilder);
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
   private readonly snackBar = inject(MatSnackBar);
 
-  public ngOnInit(): void {
-    this.initializeForm();
-  }
-
-  private initializeForm(): void {
-    this.signinForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-    });
-  }
-
-  public toggleShowPassword(): void {
-    this.showPassword.update((show) => !show);
-  }
-
-  public onSubmitSignIn(): void {
+  public onSignInWithGoogle(): void {
     this.errorMessage.set(null);
-
-    if (this.signinForm.invalid) {
-      this.signinForm.markAllAsTouched();
-      return;
-    }
-
     this.isLoading.set(true);
-    const { email, password } = this.signinForm.value;
 
     this.authService
-      .signInWithEmailAndPassword(email, password)
+      .signInWithGoogle()
       .pipe(
         catchError((error) => {
           this.errorMessage.set(error.message);
           return of(null);
         }),
+        finalize(() => this.isLoading.set(false)),
       )
       .subscribe({
         next: (user) => {
-          this.isLoading.set(false);
           if (user) {
             this.router.navigateByUrl('/');
           } else if (this.errorMessage()) {
@@ -115,15 +71,10 @@ export class SignInPage implements OnInit {
           }
         },
         error: () => {
-          this.isLoading.set(false);
           this.snackBar.open(ERROR_MESSAGES.UNKNOWN_ERROR, 'Close', {
             duration: SNACK_BAR_DURATION_MS,
           });
         },
       });
-  }
-
-  public get formControls(): Record<string, AbstractControl> {
-    return this.signinForm.controls;
   }
 }

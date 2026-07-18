@@ -49,7 +49,7 @@
 .page-subtitle {
   font: var(--mat-sys-body-medium);
   font-size: 1rem;
-  color: rgba(0, 0, 0, 0.6);
+  color: var(--mat-sys-on-surface-variant);
   margin-top: 1rem;
 }
 
@@ -59,12 +59,12 @@
   font-weight: 600;
   margin: 0 0 1rem 0;
   padding-bottom: 0.5rem;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
 }
 
 // Responsive stacking for smaller screens
 @media (max-width: 960px) {
-  .book-create-page-container {
+  .book-form-page-container {
     grid-template-columns: 1fr; // Single column layout
   }
 

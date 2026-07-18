@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { ChangeDetectionStrategy, Component, inject, signal, OnInit } from '@angular/core';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 
 // angular material
 import { MatIconModule } from '@angular/material/icon';
@@ -17,4 +17,12 @@ import { BookForm, RecentBooks } from '../../../books';
   changeDetection: ChangeDetectionStrategy.Eager,
   imports: [Navbar, Footer, BookForm, RecentBooks, RouterModule, MatIconModule],
 })
-export class BookFormPage {}
+export class BookFormPage implements OnInit {
+  private readonly route = inject(ActivatedRoute);
+  public readonly isEditMode = signal(false);
+
+  public ngOnInit(): void {
+    // Check if the route has an 'id' param to determine edit mode
+    this.isEditMode.set(this.route.snapshot.paramMap.has('id'));
+  }
+}

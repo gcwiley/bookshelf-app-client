@@ -36,6 +36,34 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/signup-page/signup-page').then((m) => m.SignUpPage),
   },
+  // forgot password page
+  {
+    path: 'forgot-password',
+    title: 'Forgot Password',
+    loadComponent: () =>
+      import('./pages/forgot-password-page/forgot-password-page').then(
+        (m) => m.ForgotPasswordPage
+      ),
+  },
+  // reset password page
+  {
+    path: 'reset-password',
+    title: 'Reset Password',
+    loadComponent: () =>
+      import('./pages/reset-password-page/reset-password-page').then(
+        (m) => m.ResetPasswordPage
+      ),
+  },
+  // user profile page
+  {
+    path: 'profile',
+    title: 'User Profile',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./pages/user-profile-page/user-profile-page').then(
+        (m) => m.UserProfilePage
+      ),
+  },
   // --- PROTECTED ADMIN ROUTES ---
   {
     path: 'admin',
