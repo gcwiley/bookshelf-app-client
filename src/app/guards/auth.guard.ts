@@ -11,18 +11,18 @@ import {
 import { Observable, of } from 'rxjs';
 import { map, take, timeout, catchError } from 'rxjs/operators';
 
-// firebase auth
-import { Auth, authState } from '@angular/fire/auth';
+// auth service
+import { AuthService } from '../services/auth.service';
 
 export const authGuard: CanActivateFn = (
   _route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot,
 ): Observable<boolean | UrlTree> => {
-  const auth = inject(Auth);
+  const authService = inject(AuthService);
   const router = inject(Router);
 
-  // auth guard using RxJS operators. 
-  return authState(auth).pipe(
+  // auth guard using RxJS operators and AuthService user observable.
+  return authService.user$.pipe(
     timeout(5000),
     take(1),
     map((user) => {

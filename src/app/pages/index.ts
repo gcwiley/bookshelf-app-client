@@ -1,6 +1,5 @@
 export { AboutPage } from './about-page/about-page';
 export { BookDetailsPage, BookDisplayPage, BookFormPage } from './book-pages';
-export { ErrorPage } from './error-page/error-page';
 export { ForgotPasswordPage } from './forgot-password-page/forgot-password-page';
 export { HomePage } from './home-page/home-page';
 export { NotFoundPage } from './not-found-page/not-found-page';

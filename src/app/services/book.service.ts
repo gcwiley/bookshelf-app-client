@@ -41,6 +41,12 @@ export class BookService {
       .get<PaginatedResponse<Book>>(this.API_URL, { params })
       .pipe(
         retry(this.DEFAULT_RETRY),
+        map((res) => {
+          if (res && res.data) {
+            res.data = res.data.map((book) => this.normalizeBookRating(book));
+          }
+          return res;
+        }),
         catchError((error) => this.handleError(error)),
       );
   }
@@ -50,7 +56,7 @@ export class BookService {
     const url = `${this.API_URL}/${id}`;
     return this.http.get<ApiResponse<Book>>(url).pipe(
       retry(this.DEFAULT_RETRY),
-      map((res) => res.data),
+      map((res) => this.normalizeBookRating(res.data)),
       catchError((error) => this.handleError(error)),
     );
   }
@@ -65,7 +71,7 @@ export class BookService {
     const params = new HttpParams().set('query', term);
     return this.http.get<ApiResponse<Book[]>>(this.API_URL, { params }).pipe(
       retry(this.DEFAULT_RETRY),
-      map((res) => res.data),
+      map((res) => res.data.map((book) => this.normalizeBookRating(book))),
       catchError((error) => this.handleError(error)),
     );
   }
@@ -83,7 +89,7 @@ export class BookService {
   public getRecentlyCreatedBooks(): Observable<Book[]> {
     return this.http.get<ApiResponse<Book[]>>(`${this.API_URL}/recent`).pipe(
       retry(this.DEFAULT_RETRY),
-      map((res) => res.data),
+      map((res) => res.data.map((book) => this.normalizeBookRating(book))),
       catchError((error) => this.handleError(error)),
     );
   }
@@ -94,7 +100,7 @@ export class BookService {
       .get<ApiResponse<Book[]>>(`${this.API_URL}/favorites`)
       .pipe(
         retry(this.DEFAULT_RETRY),
-        map((res) => res.data),
+        map((res) => res.data.map((book) => this.normalizeBookRating(book))),
         catchError((error) => this.handleError(error)),
       );
   }
@@ -104,7 +110,7 @@ export class BookService {
   // POST: - NEW BOOK
   public addBook(newBook: BookInput): Observable<Book> {
     return this.http.post<ApiResponse<Book>>(this.API_URL, newBook).pipe(
-      map((res) => res.data),
+      map((res) => this.normalizeBookRating(res.data)),
       catchError((error) => this.handleError(error)),
     );
   }
@@ -113,7 +119,7 @@ export class BookService {
   public deleteBookById(id: string): Observable<Book> {
     const url = `${this.API_URL}/${id}`;
     return this.http.delete<ApiResponse<Book>>(url).pipe(
-      map((res) => res.data),
+      map((res) => this.normalizeBookRating(res.data)),
       catchError((error) => this.handleError(error)),
     );
   }
@@ -125,7 +131,7 @@ export class BookService {
   ): Observable<Book> {
     const url = `${this.API_URL}/${id}`;
     return this.http.patch<ApiResponse<Book>>(url, body).pipe(
-      map((res) => res.data),
+      map((res) => this.normalizeBookRating(res.data)),
       catchError((error) => this.handleError(error)),
     );
   }
@@ -137,9 +143,22 @@ export class BookService {
   ): Observable<Book> {
     const url = `${this.API_URL}/${id}`;
     return this.http.patch<ApiResponse<Book>>(url, { favorite }).pipe(
-      map((res) => res.data),
+      map((res) => this.normalizeBookRating(res.data)),
       catchError((error) => this.handleError(error)),
     );
+  }
+
+  // NORMALIZE BOOK RATING TYPE
+  private normalizeBookRating(book: Book): Book {
+    if (book && book.rating) {
+      const ratingAny = book.rating as any;
+      if (typeof ratingAny === 'object' && ratingAny !== null && 'averageRating' in ratingAny) {
+        book.rating = String(ratingAny.averageRating ?? 0);
+      } else {
+        book.rating = String(book.rating);
+      }
+    }
+    return book;
   }
 
   // HANDLE ERROR

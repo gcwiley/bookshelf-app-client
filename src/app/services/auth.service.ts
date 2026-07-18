@@ -8,7 +8,8 @@ import {
   Auth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
   GoogleAuthProvider,
   signOut,
   UserCredential,
@@ -18,6 +19,7 @@ import {
   sendPasswordResetEmail,
   confirmPasswordReset,
   deleteUser,
+  idToken,
 } from '@angular/fire/auth';
 
 @Injectable({
@@ -30,10 +32,25 @@ export class AuthService {
   // observable for the current user state (emits User object or null)
   public readonly user$: Observable<User | null> = user(this.auth);
 
+  // observable for the current user's ID token (emits token string or null)
+  public readonly idToken$: Observable<string | null> = idToken(this.auth);
+
   // observable for the authentication status (emits true if logged in, false otherwise)
   public readonly isAuthenticated$: Observable<boolean> = this.user$.pipe(
     map((user) => !!user)
   );
+
+  constructor() {
+    getRedirectResult(this.auth)
+      .then((result) => {
+        if (result) {
+          console.log('Successfully signed in via Google redirect:', result.user);
+        }
+      })
+      .catch((error) => {
+        console.error('Error handling Google redirect result:', error);
+      });
+  }
 
   // CREATE NEW USER
   public signUpWithEmailAndPassword(
@@ -56,8 +73,9 @@ export class AuthService {
   }
 
   // SIGN IN WITH GOOGLE
-  public signInWithGoogle(): Observable<UserCredential> {
-    return from(signInWithPopup(this.auth, new GoogleAuthProvider())).pipe(
+  public signInWithGoogle(): Observable<UserCredential | null> {
+    return from(signInWithRedirect(this.auth, new GoogleAuthProvider())).pipe(
+      map(() => null),
       catchError((error) => this.handleError(error))
     );
   }

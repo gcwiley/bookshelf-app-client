@@ -15,7 +15,7 @@ import { BookDescription, BookDetails } from '../../../books';
   selector: 'app-book-details-page',
   templateUrl: './book-details-page.html',
   styleUrl: './book-details-page.scss',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     Navbar,
     Footer,

@@ -3,11 +3,12 @@ import {
   Component,
   inject,
   signal,
+  OnInit,
 } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 
 // rxjs
-import { catchError, of, finalize } from 'rxjs';
+import { catchError, of, finalize, first } from 'rxjs';
 
 // angular material
 import { MatCardModule } from '@angular/material/card';
@@ -37,7 +38,7 @@ const ERROR_MESSAGES = {
     MatProgressSpinnerModule,
   ],
 })
-export class SignInPage {
+export class SignInPage implements OnInit {
   public readonly isLoading = signal(false);
   public readonly errorMessage = signal<string | null>(null);
   public readonly year = new Date().getFullYear();
@@ -46,6 +47,17 @@ export class SignInPage {
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
   private readonly snackBar = inject(MatSnackBar);
+
+  public ngOnInit(): void {
+    // redirect to home if user is already authenticated
+    this.authService.user$.pipe(
+      first(),
+    ).subscribe((user) => {
+      if (user) {
+        this.router.navigateByUrl('/');
+      }
+    });
+  }
 
   public onSignInWithGoogle(): void {
     this.errorMessage.set(null);

@@ -9,8 +9,8 @@ import { BookGrid } from '../../../books';
 @Component({
   selector: 'app-book-display-page',
   templateUrl: './book-display-page.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './book-display-page.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Navbar, Footer, BookGrid],
 })
 export class BookDisplayPage {}

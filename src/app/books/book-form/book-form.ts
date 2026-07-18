@@ -119,7 +119,10 @@ export class BookForm implements OnInit {
               language: book.language ?? '',
               publishedFormat: book.publishedFormat ?? '',
               tags: book.tags ? book.tags.join(', ') : '',
-              rating: book.rating ?? '',
+              rating:
+                book.rating && typeof book.rating === 'object'
+                  ? (book.rating as any).averageRating ?? ''
+                  : (book.rating ?? ''),
               publisher: book.publisher ?? '',
               coverImageUrl: book.coverImageUrl ?? '',
             });

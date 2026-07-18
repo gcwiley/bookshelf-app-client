@@ -1,26 +1,46 @@
 @if (books$ | async; as bookList) { @if (bookList.length > 0) {
 <div class="book-grid-container">
   @for (book of bookList; track book._id) {
-  <mat-card appearance="outlined" class="book-card">
-    <mat-card-header>
-      <mat-card-subtitle>
-        <span>{{ book.publicationDate | date:'mediumDate' }} • {{ book.genre }}</span>
-      </mat-card-subtitle>
-      <mat-card-subtitle>
-        @if (book.publicationDate) {
-        <span class="time-ago">{{ book.publicationDate| timeAgo }}</span>
+  <mat-card appearance="outlined" class="book-card" [routerLink]="['/books', book._id]" tabindex="0" role="link">
+    <!-- Book Cover Container -->
+    <div class="book-cover-container">
+      <div class="book-cover" [ngStyle]="getCoverStyle(book)">
+        <div class="cover-overlay">
+          <span class="genre-tag">{{ book.genre }}</span>
+          @if (!book.coverImageUrl) {
+            <div class="cover-text-details">
+              <span class="cover-title">{{ book.title }}</span>
+              <span class="cover-author">by {{ getAuthorName(book) }}</span>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- Book Info below Cover -->
+    <mat-card-content class="book-info">
+      <h3 class="book-title" [title]="book.title">{{ book.title }}</h3>
+      <p class="book-author">by {{ getAuthorName(book) }}</p>
+      
+      <div class="book-meta">
+        @if (book.rating) {
+          <div class="rating">
+            <mat-icon class="star-icon">star</mat-icon>
+            <span>{{ book.rating }}</span>
+          </div>
         }
-      </mat-card-subtitle>
-      <mat-card-title>{{ book.title }}</mat-card-title>
-    </mat-card-header>
+        @if (book.publishedFormat) {
+          <span class="format-badge">{{ book.publishedFormat }}</span>
+        }
+      </div>
 
-    <mat-card-content>
-      <p class="book-excerpt">{{ book.summary }}</p>
+      @if (book.publicationDate) {
+        <div class="book-date">
+          <mat-icon class="date-icon">schedule</mat-icon>
+          <span>{{ book.publicationDate | timeAgo }}</span>
+        </div>
+      }
     </mat-card-content>
-
-    <mat-card-actions align="end">
-      <a matButton routerLink="/books/{{ book._id }}">Read More</a>
-    </mat-card-actions>
   </mat-card>
   }
 </div>

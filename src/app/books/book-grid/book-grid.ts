@@ -6,7 +6,7 @@ import {
   signal,
   DestroyRef,
 } from '@angular/core';
-import { AsyncPipe, DatePipe } from '@angular/common';
+import { AsyncPipe, NgStyle } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterModule } from '@angular/router';
 
@@ -30,16 +30,18 @@ import { TimeAgoPipe } from '../../pipes';
   selector: 'app-book-grid',
   templateUrl: './book-grid.html',
   styleUrl: './book-grid.scss',
-  changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [AsyncPipe,
-    DatePipe,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    AsyncPipe,
+    NgStyle,
     TimeAgoPipe,
     RouterModule,
     MatCardModule,
     MatIconModule,
     MatButtonModule,
     MatProgressSpinnerModule,
-    MatPaginatorModule,],
+    MatPaginatorModule,
+  ],
 })
 export class BookGrid implements OnInit {
    private readonly bookService = inject(BookService);
@@ -75,5 +77,31 @@ export class BookGrid implements OnInit {
     this.hasError.set(false);
     this.pageSize.set(event.pageSize);
     this.pageParams$.next({ page: event.pageIndex + 1, pageSize: event.pageSize });
+  }
+
+  // helper to get populated or gradient style cover
+  public getCoverStyle(book: Book) {
+    if (book.coverImageUrl) {
+      return { 'background-image': `url(${book.coverImageUrl})` };
+    }
+    // Return a harmonious theme gradient based on the title length to randomize
+    const gradients = [
+      'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+      'linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%)',
+      'linear-gradient(135deg, #f6d365 0%, #fda085 100%)',
+      'linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%)',
+      'linear-gradient(135deg, #13547a 0%, #80d0c7 100%)',
+      'linear-gradient(135deg, #ff0844 0%, #ffb199 100%)',
+    ];
+    const index = book.title.length % gradients.length;
+    return { 'background': gradients[index] };
+  }
+
+  // helper to check if author is string or object
+  public getAuthorName(book: Book): string {
+    if (typeof book.author === 'string') {
+      return book.author;
+    }
+    return book.author?.name ?? 'Unknown Author';
   }
 }

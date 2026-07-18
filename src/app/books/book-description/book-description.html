@@ -1,6 +1,55 @@
 @if (book$ | async; as book) {
-<section class="book-description" aria-label="Book Description">
-  <h1 class="book-title">{{ book.title }}</h1>
-  <p class="book-description">{{ book.summary }}</p>
+<section class="book-description-section" aria-label="Book Description">
+  <div class="book-header-card">
+    <div class="book-cover-container">
+      <div class="book-cover" [ngStyle]="getCoverStyle(book)">
+        @if (!book.coverImageUrl) {
+          <div class="cover-fallback">
+            <span class="fallback-title">{{ book.title }}</span>
+            <span class="fallback-author">{{ getAuthorName(book) }}</span>
+          </div>
+        }
+      </div>
+    </div>
+    
+    <div class="book-header-info">
+      <h1 class="book-title">{{ book.title }}</h1>
+      <h2 class="book-author">by {{ getAuthorName(book) }}</h2>
+      
+      <div class="book-meta-badges">
+        @if (book.rating) {
+          <div class="meta-badge rating-badge">
+            <mat-icon class="badge-icon star">star</mat-icon>
+            <span>{{ book.rating }}</span>
+          </div>
+        }
+        @if (book.genre) {
+          <div class="meta-badge genre-badge">
+            <mat-icon class="badge-icon">bookmark</mat-icon>
+            <span>{{ book.genre }}</span>
+          </div>
+        }
+        @if (book.publishedFormat) {
+          <div class="meta-badge format-badge">
+            <mat-icon class="badge-icon">menu_book</mat-icon>
+            <span>{{ book.publishedFormat }}</span>
+          </div>
+        }
+      </div>
+
+      @if (book.tags && book.tags.length > 0) {
+        <div class="book-tags-list">
+          @for (tag of book.tags; track tag) {
+            <span class="tag-pill">#{{ tag }}</span>
+          }
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="book-synopsis-container">
+    <h3 class="synopsis-title">Synopsis</h3>
+    <p class="synopsis-text">{{ book.summary }}</p>
+  </div>
 </section>
 }

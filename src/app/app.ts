@@ -7,8 +7,8 @@ import { AnnouncementBar } from './components';
 @Component({
   selector: 'app-root',
   templateUrl: './app.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './app.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterOutlet, AnnouncementBar],
 })
 export class App {}

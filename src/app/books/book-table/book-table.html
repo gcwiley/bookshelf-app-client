@@ -93,11 +93,11 @@
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-          <a mat-menu-item [routerLink]="['/books', book.id]">
+          <a mat-menu-item [routerLink]="['/books', book._id]">
             <mat-icon>open_in_new</mat-icon>
             <span>Open</span>
           </a>
-          <a mat-menu-item [routerLink]="['/books', book.id, 'edit']">
+          <a mat-menu-item [routerLink]="['/admin/books', book._id, 'edit']">
             <mat-icon>edit</mat-icon>
             <span>Edit</span>
           </a>

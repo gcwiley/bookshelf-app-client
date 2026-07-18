@@ -24,7 +24,7 @@ import { BookCarousel } from '../../books';
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './home-page.scss',
   imports: [
     RouterModule,

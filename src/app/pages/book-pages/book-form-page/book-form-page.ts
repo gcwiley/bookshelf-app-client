@@ -14,7 +14,7 @@ import { BookForm, RecentBooks } from '../../../books';
   selector: 'app-book-form-page',
   templateUrl: './book-form-page.html',
   styleUrl: './book-form-page.scss',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Navbar, Footer, BookForm, RecentBooks, RouterModule, MatIconModule],
 })
 export class BookFormPage implements OnInit {

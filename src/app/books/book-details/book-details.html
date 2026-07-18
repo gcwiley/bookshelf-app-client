@@ -1,22 +1,84 @@
 @if (book$ | async; as book) {
-<mat-list class="book-details-card" role="list" aria-label="Book Details">
-  <span mat-subheader>About this book</span>
-  <!-- author -->
-  <mat-list-item lines="2" role="listitem">
-    <span matListItemTitle>Author</span>
-    <span matListItemLine>{{ book.author }}</span>
-  </mat-list-item>
-  <!-- publication date -->
-  <mat-list-item lines="2" role="listitem">
-    <span matListItemTitle>Publication Date</span>
-    <span matListItemLine>{{ book.publicationDate }}</span>
-  </mat-list-item>
-  <!-- publisher -->
-  <mat-list-item lines="2" role="listitem">
-    <span matListItemTitle>Publisher</span>
-    <span matListItemLine>{{ book.publisher }}</span>
-  </mat-list-item>
-</mat-list>
+<div class="book-details-card-wrapper">
+  <div class="book-details-card" role="region" aria-label="Book Technical Details">
+    <h3 class="details-card-title">Book Specifications</h3>
+    
+    <div class="spec-list">
+      <!-- author -->
+      <div class="spec-item">
+        <div class="icon-wrapper">
+          <mat-icon class="spec-icon">person</mat-icon>
+        </div>
+        <div class="spec-content">
+          <span class="spec-label">Author</span>
+          <span class="spec-value">{{ getAuthorName(book) }}</span>
+        </div>
+      </div>
+
+      <!-- publisher -->
+      <div class="spec-item">
+        <div class="icon-wrapper">
+          <mat-icon class="spec-icon">business</mat-icon>
+        </div>
+        <div class="spec-content">
+          <span class="spec-label">Publisher</span>
+          <span class="spec-value">{{ book.publisher || 'N/A' }}</span>
+        </div>
+      </div>
+      
+      <!-- publication date -->
+      <div class="spec-item">
+        <div class="icon-wrapper">
+          <mat-icon class="spec-icon">calendar_month</mat-icon>
+        </div>
+        <div class="spec-content">
+          <span class="spec-label">Published</span>
+          <span class="spec-value">{{ book.publicationDate ? (book.publicationDate | date:'longDate') : 'N/A' }}</span>
+        </div>
+      </div>
+
+      <!-- page count -->
+      <div class="spec-item">
+        <div class="icon-wrapper">
+          <mat-icon class="spec-icon">auto_stories</mat-icon>
+        </div>
+        <div class="spec-content">
+          <span class="spec-label">Length</span>
+          <span class="spec-value">{{ book.pageCount ? (book.pageCount + ' pages') : 'N/A' }}</span>
+        </div>
+      </div>
+
+      <!-- language -->
+      <div class="spec-item">
+        <div class="icon-wrapper">
+          <mat-icon class="spec-icon">translate</mat-icon>
+        </div>
+        <div class="spec-content">
+          <span class="spec-label">Language</span>
+          <span class="spec-value">{{ book.language || 'N/A' }}</span>
+        </div>
+      </div>
+
+      <!-- isbn -->
+      <div class="spec-item">
+        <div class="icon-wrapper">
+          <mat-icon class="spec-icon">qr_code</mat-icon>
+        </div>
+        <div class="spec-content">
+          <span class="spec-label">ISBN</span>
+          <span class="spec-value isbn-value">{{ book.isbn || 'N/A' }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="details-actions">
+    <a mat-flat-button color="primary" [routerLink]="['/admin/books', book._id, 'edit']" class="edit-action-btn">
+      <mat-icon>edit</mat-icon>
+      <span>Edit Details</span>
+    </a>
+  </div>
+</div>
 } @else {
 <div class="spinner-container" aria-live="polite">
   <mat-spinner diameter="36"></mat-spinner>

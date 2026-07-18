@@ -1,17 +1,17 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 
-// firebase auth
-import { Auth, idToken } from '@angular/fire/auth';
+// auth service
+import { AuthService } from '../services/auth.service';
 
 // rxjs
 import { switchMap, take } from 'rxjs';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const auth = inject(Auth);
+  const authService = inject(AuthService);
 
-  // retrieve the ID token dynamically
-  return idToken(auth).pipe(
+  // retrieve the ID token dynamically from the service where it was safely initialized
+  return authService.idToken$.pipe(
     take(1),
     switchMap((token) => {
       if (token) {
